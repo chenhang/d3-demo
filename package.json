@@ -1,0 +1,11 @@
+{
+  "name": "d3",
+  "version": "1.0.0",
+  "description": "Using react with d3",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Hang chen",
+  "license": "ISC"
+}

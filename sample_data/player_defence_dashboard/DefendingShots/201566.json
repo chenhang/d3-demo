@@ -1,0 +1,74 @@
+[
+  {
+    "d_fg_pct": 0.45,
+    "normal_fg_pct": 0.443,
+    "g": 67,
+    "d_fgm": 3.45,
+    "defense_category": "Overall",
+    "d_fga": 7.66,
+    "close_def_person_id": 201566,
+    "gp": 67,
+    "freq": 1.0,
+    "pct_plusminus": 0.007
+  },
+  {
+    "d_fg_pct": 0.386,
+    "normal_fg_pct": 0.35,
+    "g": 65,
+    "d_fgm": 1.21,
+    "defense_category": "3 Pointers",
+    "d_fga": 3.13,
+    "close_def_person_id": 201566,
+    "gp": 67,
+    "freq": 0.409,
+    "pct_plusminus": 0.035
+  },
+  {
+    "d_fg_pct": 0.495,
+    "normal_fg_pct": 0.483,
+    "g": 67,
+    "d_fgm": 2.24,
+    "defense_category": "2 Pointers",
+    "d_fga": 4.52,
+    "close_def_person_id": 201566,
+    "gp": 67,
+    "freq": 0.591,
+    "pct_plusminus": 0.012
+  },
+  {
+    "d_fg_pct": 0.661,
+    "normal_fg_pct": 0.594,
+    "g": 50,
+    "d_fgm": 1.16,
+    "defense_category": "Less Than 6 Ft",
+    "d_fga": 1.76,
+    "close_def_person_id": 201566,
+    "gp": 67,
+    "freq": 0.23,
+    "pct_plusminus": 0.067
+  },
+  {
+    "d_fg_pct": 0.6,
+    "normal_fg_pct": 0.54,
+    "g": 56,
+    "d_fgm": 1.34,
+    "defense_category": "Less Than 10 Ft",
+    "d_fga": 2.24,
+    "close_def_person_id": 201566,
+    "gp": 67,
+    "freq": 0.292,
+    "pct_plusminus": 0.06
+  },
+  {
+    "d_fg_pct": 0.374,
+    "normal_fg_pct": 0.368,
+    "g": 67,
+    "d_fgm": 1.79,
+    "defense_category": "Greater Than 15 Ft",
+    "d_fga": 4.79,
+    "close_def_person_id": 201566,
+    "gp": 67,
+    "freq": 0.626,
+    "pct_plusminus": 0.006
+  }
+]
