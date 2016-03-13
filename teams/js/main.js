@@ -1,4 +1,4 @@
-d3.json('data/lineup.json', function(data) {
+d3.json('data/summary.json', function(data) {
 
     var keys = data['headers'];
     var bounds = data['bounds'];
