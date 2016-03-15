@@ -46,6 +46,7 @@ function drawWithAPI(url) {
         if (error) {
             console.log(error);
             event++;
+            if (event > 55) { event = 2};
             drawWithAPI(API_PATH(event));
         } else {
             console.log(data)
