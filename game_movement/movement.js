@@ -1,8 +1,8 @@
 var API_PATH;
 API_PATH = function (eventId) {
-    return 'http://stats.nba.com/stats/locations_getmoments/?gameid=0021500177&eventid=' + eventId
+    //return 'http://stats.nba.com/stats/locations_getmoments/?gameid=0021500177&eventid=' + eventId
+    return 'json/' + eventId + '.json'
 };
-var PASS_API = "http://stats.nba.com/stats/leaguedashptstats?College=&Conference=&Country=&DateFrom=&DateTo=&Division=&DraftPick=&DraftYear=&GameScope=&Height=&LastNGames=0&LeagueID=00&Location=&Month=0&OpponentTeamID=0&Outcome=&PORound=0&PerMode=PerGame&PlayerExperience=&PlayerOrTeam=Player&PlayerPosition=&PtMeasureType=Passing&Season=2015-16&SeasonSegment=&SeasonType=Regular+Season&StarterBench=&TeamID=0&VsConference=&VsDivision=&Weight=";
 var event = 2;
 var pause = false;
 var withShadow = true;
