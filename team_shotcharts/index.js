@@ -196,9 +196,13 @@ function draw(id,team) {
 }
 
 function drawCharts(team) {
-    draw('svg-1', team + '_win');
-    draw('svg-2', team + '_lose');
-    draw('svg-3', 'vs_' + team + '_lose');
-    draw('svg-4', 'vs_' + team + '_win');
+    draw('svg-win', team + '_win');
+    draw('svg-lose', team + '_lose');
+    draw('svg-vs-win', 'vs_' + team + '_lose');
+    draw('svg-vs-lose', 'vs_' + team + '_win');
 }
-drawCharts('nyk');
+
+function selectTeam(sel) {
+    var team = sel.value;
+    drawCharts(team);
+}

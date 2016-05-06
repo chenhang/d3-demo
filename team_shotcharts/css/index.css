@@ -1,0 +1,33 @@
+body {
+    background-color: #26292E;
+    font-family: 'droid_sans', sans-serif;
+    font-size: 10px;
+    font-weight: normal;
+    line-height: 28px;
+}
+div.shot-chart {
+    float: left;
+    width: 50%;
+}
+
+svg {
+    width: 100%;
+    margin: 0 auto;
+}
+.team-selection {
+    width: 100%;
+    float: left;
+}
+.desc {
+    text-align: center;
+    color: white;
+}
+
+.d3-tip {
+    line-height: 1;
+    font-weight: bold;
+    padding: 12px;
+    background: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    border-radius: 2px;
+}
