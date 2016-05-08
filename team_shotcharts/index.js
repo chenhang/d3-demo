@@ -1,5 +1,5 @@
-function draw(id,team) {
-    d3.json("./data/"+ team +"_shots.json", function (error, data) {
+function draw(id, descId, desc, file, config) {
+    d3.json("./data/" + file + "_shots.json", function (error, data) {
         if (error) {
             console.log(error);
         } else {
@@ -16,8 +16,22 @@ function draw(id,team) {
             var baseline_basket_dist = 5.24 * 10;
             var three_points_line_radius = 7.24 * 32.8;
             var grid_length = 28;
+            var uniqCount = function (obj, propertyName) {
+                var result = 0;
+                var items = []
+                for (var i = 0, l = obj.length; i < l; i++) {
+                    var prop = obj[i][propertyName];
+                    if (items.indexOf(prop) == -1) {
+                        items.push(prop);
+                        result += 1;
+                    }
+                }
+                return result;
+            };
+            var gameSize = uniqCount(data, 'GAME_ID');
 
-            var svg = d3.select('svg#'+id);
+
+            var svg = d3.select('svg#' + id);
             svg.selectAll('.hexagon').remove();
             var x = d3.scale.quantize()
                 .domain([-width / 2, width / 2])
@@ -47,6 +61,7 @@ function draw(id,team) {
             var min_shot_num = 100000;
             var total_shots = 0;
             var total_made = 0;
+            var total_pts = 0;
             for (i = 0; i < data.length; i++) {
                 data[i].y = ((data[i].LOC_Y) * 1.1 + baseline_basket_dist);
                 data[i].x = ((data[i].LOC_X) * 1.1 + width / 2);
@@ -59,6 +74,7 @@ function draw(id,team) {
                     grouped_location[key]['shot_made_num'] += data[i].SHOT_MADE_FLAG;
                     if (data[i].SHOT_MADE_FLAG > 0) {
                         grouped_location[key]['points'] += Number(data[i].SHOT_TYPE[0]);
+                        total_pts += Number(data[i].SHOT_TYPE[0]);
                     }
                     grouped_location[key]['total_shot_distance'] += data[i].SHOT_DISTANCE;
                     grouped_location[key]['shots'].push(data[i])
@@ -73,6 +89,7 @@ function draw(id,team) {
                     grouped_location[key]['shot_num'] = 1;
                     grouped_location[key]['total_shot_distance'] = data[i].SHOT_DISTANCE;
                     grouped_location[key]['points'] = data[i].SHOT_MADE_FLAG > 0 ? Number(data[i].SHOT_TYPE[0]) : 0;
+                    total_pts += data[i].SHOT_MADE_FLAG > 0 ? Number(data[i].SHOT_TYPE[0]) : 0;
                     grouped_location[key]['shot_made_num'] = data[i].SHOT_MADE_FLAG;
                     grouped_location[key]['shots'] = [data[i]]
                 }
@@ -97,13 +114,19 @@ function draw(id,team) {
                     merged_data['points'] += grouped_location[key]['points'];
                     merged_data['shots'] = merged_data['shots'].concat(grouped_location[key]['shots'])
                 }
-                merged_data['avg_shot_distance'] = merged_data['total_shot_distance']/merged_data['shot_num'];
+                merged_data['avg_shot_distance'] = merged_data['total_shot_distance'] / merged_data['shot_num'];
                 if (merged_data['avg_shot_distance'] > 7) {
                     max_shot_num = Math.max(merged_data['shot_num'], max_shot_num);
                     min_shot_num = Math.min(merged_data['shot_num'], min_shot_num);
                 }
             }
-            console.log(max_shot_num)
+            var madePerGame = (total_made / gameSize).toFixed(1);
+            var shotsPerGame = (total_shots / gameSize).toFixed(1);
+            var ptsPerGame = (total_pts / gameSize).toFixed(1);
+            var ptsPerShot = (total_pts / total_shots).toFixed(3);
+            var totalDesc = gameSize + ' games, ' + madePerGame + '/' + shotsPerGame + ',' + (total_made * 100 / total_shots).toFixed(1) + "%, " + 'FG PTS: ' + ptsPerGame + ', PPP: ' + ptsPerShot;
+            d3.select('.desc#' + descId)
+                .text(desc + ', ' + totalDesc);
             var r = d3.scale.linear()
                 .domain([min_shot_num, max_shot_num])
                 .range([2, grid_length]);
@@ -111,11 +134,11 @@ function draw(id,team) {
                 hexbin_sizes.push(points_data[i]['shot_num'])
             }
             function tip_for(name, num) {
-                return "<strong>"+ name +": </strong><span style='color:red'>" + num + "</span></br>"
+                return "<strong>" + name + ": </strong><span style='color:red'>" + num + "</span></br>"
             }
 
             function color_for(pct) {
-                var colors  = ["#0066FF","#5599EE","#AACCDD","#FFFFCC","#FFDBAF","#FFB692","#FF9275","#FF6D57","#FF493A","#FF241D","#FF0000"]
+                var colors = ["#0066FF", "#5599EE", "#AACCDD", "#FFFFCC", "#FFDBAF", "#FFB692", "#FF9275", "#FF6D57", "#FF493A", "#FF241D", "#FF0000"]
                 if (pct < 0.2) {
                     return colors[0]
                 } else if (pct < 0.25) {
@@ -140,15 +163,16 @@ function draw(id,team) {
                     return colors[10]
                 }
             }
+
             var tip = d3.tip()
                 .attr('class', 'd3-tip')
                 .offset([60, 100])
-                .html(function(d, i) {
-                    var pct = tip_for("Percent",(points_data[i].shot_made_num * 100 / points_data[i].shot_num).toFixed(1) + "%");
+                .html(function (d, i) {
+                    var pct = tip_for("Percent", (points_data[i].shot_made_num * 100 / points_data[i].shot_num).toFixed(1) + "%");
                     var att = tip_for("Attempted", points_data[i].shot_num);
                     var made = tip_for("Made", points_data[i].shot_made_num);
-                    var pts = tip_for("Points Per Attempt", (points_data[i].points/points_data[i].shot_num).toFixed(2));
-                    var percent = tip_for("Attempted%", (points_data[i].shot_num * 100/total_shots).toFixed(1) + "%");
+                    var pts = tip_for("Points Per Attempt", (points_data[i].points / points_data[i].shot_num).toFixed(2));
+                    var percent = tip_for("Attempted%", (points_data[i].shot_num * 100 / total_shots).toFixed(1) + "%");
                     var distance = tip_for('Avg Distance', (points_data[i].avg_shot_distance).toFixed(0) + ' ft');
                     return pct + made + att + percent + pts + distance;
                 });
@@ -169,7 +193,7 @@ function draw(id,team) {
                 })
                 .attr("fill", function (d, i) {
                     var pct = points_data[i].shot_made_num / points_data[i].shot_num;
-                    var pts = points_data[i].points/points_data[i].shot_num/2;
+                    var pts = points_data[i].points / points_data[i].shot_num / 2;
                     return color_for(pct);
                 })
                 .attr('fill-opacity', function (d, i) {
@@ -185,7 +209,7 @@ function draw(id,team) {
                 .on('mouseout', function (d, i) {
                     d3.select(this).attr("fill", function () {
                         var pct = points_data[i].shot_made_num / points_data[i].shot_num;
-                        var pts = points_data[i].points/points_data[i].shot_num/2;
+                        var pts = points_data[i].points / points_data[i].shot_num / 2;
                         return color_for(pct);
                     });
                     tip.hide(d, i);
@@ -195,14 +219,16 @@ function draw(id,team) {
     });
 }
 
-function drawCharts(team) {
-    draw('svg-win', team + '_win');
-    draw('svg-lose', team + '_lose');
-    draw('svg-vs-win', 'vs_' + team + '_lose');
-    draw('svg-vs-lose', 'vs_' + team + '_win');
+function drawCharts(team, config) {
+    draw('svg-1', 'desc-1', 'All Games', team, config);
+    draw('svg-2', 'desc-2', 'Opp All Games', 'vs_' + team, config);
+    draw('svg-3', 'desc-3', 'Win Games', team + '_win', config);
+    draw('svg-4', 'desc-4', 'Lose Games', team + '_lose', config);
+    draw('svg-5', 'desc-5', 'Win Games Opp', 'vs_' + team + '_lose', config);
+    draw('svg-6', 'desc-6', 'Lose Games Opp', 'vs_' + team + '_win', config);
 }
-
+var defaultConfig = {coloredBy: 'pts'}
 function selectTeam(sel) {
     var team = sel.value;
-    drawCharts(team);
+    drawCharts(team, defaultConfig);
 }
