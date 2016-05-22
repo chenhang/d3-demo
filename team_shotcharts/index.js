@@ -169,8 +169,8 @@ function draw(id, descId, desc, file, config) {
                 .offset([60, 100])
                 .html(function (d, i) {
                     var pct = tip_for("Percent", (points_data[i].shot_made_num * 100 / points_data[i].shot_num).toFixed(1) + "%");
-                    var att = tip_for("Attempted", points_data[i].shot_num);
-                    var made = tip_for("Made", points_data[i].shot_made_num);
+                    var att = tip_for("Attempted Per Game", (points_data[i].shot_num / gameSize).toFixed(2));
+                    var made = tip_for("Made Per Game", (points_data[i].shot_made_num / gameSize).toFixed(2));
                     var pts = tip_for("Points Per Attempt", (points_data[i].points / points_data[i].shot_num).toFixed(2));
                     var percent = tip_for("Attempted%", (points_data[i].shot_num * 100 / total_shots).toFixed(1) + "%");
                     var distance = tip_for('Avg Distance', (points_data[i].avg_shot_distance).toFixed(0) + ' ft');

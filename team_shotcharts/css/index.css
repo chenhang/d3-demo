@@ -9,10 +9,11 @@ div.shot-chart {
     float: left;
     width: 50%;
 }
-
 svg {
     width: 100%;
     margin: 0 auto;
+    background: none, url('../half_court.svg') no-repeat 50% 50%;
+    background-size: contain;
 }
 .team-selection {
     width: 100%;
