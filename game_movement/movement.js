@@ -1,9 +1,9 @@
 var API_PATH;
-API_PATH = function (eventId) {
-    //return 'http://stats.nba.com/stats/locations_getmoments/?gameid=0021500177&eventid=' + eventId
-    return 'json/' + eventId + '.json'
+API_PATH = function (eventID) {
+    //return 'http://stats.nba.com/stats/locations_getmoments/?gameid=0021500177&eventid=' + eventID
+    return 'json/' + eventID + '.json'
 };
-var event = 2;
+var eventID = 2;
 var pause = false;
 var withShadow = true;
 
@@ -13,7 +13,7 @@ var height = 50 * 10;
 var updatePeriod = 25;
 var transitionTime = 10 / 25;
 var home_color = 'steelBlue';
-var visitor_color = 'orange';
+var visitor_color = 'Black';
 var ball_color = 'DarkOrange';
 var next = false;
 var prev = false;
@@ -22,7 +22,7 @@ var ball_radius = 6;
 
 function clickPlay() {
     if (d3.selectAll('.item')[0].length == 0) {
-        drawWithAPI(API_PATH(event));
+        drawWithAPI(API_PATH(eventID));
     }
 }
 
@@ -45,9 +45,9 @@ function drawWithAPI(url) {
     d3.json(url, function (error, data) {
         if (error) {
             console.log(error);
-            event++;
-            if (event > 55) { event = 2};
-            drawWithAPI(API_PATH(event));
+            eventID++;
+            if (eventID > 55) { eventID = 2};
+            drawWithAPI(API_PATH(eventID));
         } else {
             console.log(data)
             drawMovement(data)
@@ -217,8 +217,8 @@ function drawMovement(data) {
         if (index >= movements.length) {
             index = 0;
             clearInterval(intervalId);
-            event++;
-            drawWithAPI(API_PATH(event));
+            eventID++;
+            drawWithAPI(API_PATH(eventID));
         }
     }, updatePeriod);
 
