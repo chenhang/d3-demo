@@ -244,6 +244,3 @@ d3.json('data/summary.json', function(data) {
     }
 
 })
-
-
-

@@ -24,7 +24,7 @@ var dataSet;
 var names = ["chris paul", "rondo"];
 
 function drawWithAPI(type) {
-    d3.json(DASH_API(type), function (error, data) {
+    d3.json(API_PATH, function (error, data) {
         if (error) {
             console.log(error);
         } else {

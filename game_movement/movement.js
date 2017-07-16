@@ -11,7 +11,7 @@ var court = d3.select("svg");
 var width = 94 * 10;
 var height = 50 * 10;
 var updatePeriod = 25;
-var transitionTime = 10 / 25;
+var transitionTime = 25 / 25;
 var home_color = 'steelBlue';
 var visitor_color = 'Black';
 var ball_color = 'DarkOrange';
@@ -143,7 +143,7 @@ function drawMovement(data) {
             circle
                 .attr('stroke-width', stroke_width || 0)
                 .transition()
-                .duration(100)
+                .duration(200)
                 .ease('linear')
                 .attr("r", function (d) {
                     return Math.max(radius, r(d.z))
